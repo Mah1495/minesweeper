@@ -1,0 +1,2 @@
+.game{display:flex;justify-content:center}.board{background-color:green;display:grid;grid-template-columns:repeat(10,50px)}.cell{border:1px solid #000;height:20px;padding:10px;text-align:center}
+/*# sourceMappingURL=main.5c01e770.css.map*/
