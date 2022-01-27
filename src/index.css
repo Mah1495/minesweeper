@@ -1,6 +1,5 @@
 .game {
-  background-color: gray;
-  display: flex;
+    display: flex;
   justify-content: center;
 }
 .board {
