@@ -18,25 +18,12 @@ const Game = () => {
     ended: false,
     level: 1,
   });
-  const levelChanged = (level: number) => {
-    setState({ ...state, level });
-  };
-  const [rows, cols, bombs] = [
-    [10, 8, 10],
-    [18, 14, 40],
-    [24, 20, 99],
-  ][state.level - 1];
 
   return (
     <div className="game">
       <div>
-        <GameBar
-          started={state.started}
-          ended={state.ended}
-          level={state.level}
-          handler={levelChanged}
-        />
-        <Board rows={rows} columns={cols} bombs={bombs} handler={gameChanged} />
+        <GameBar />
+        <Board />
       </div>
     </div>
   );

@@ -1,5 +1,9 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
 .game {
-    display: flex;
+  display: flex;
   justify-content: center;
 }
 .board {

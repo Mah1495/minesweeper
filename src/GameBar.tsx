@@ -1,22 +1,37 @@
 import { useEffect, useState } from "react";
-import { GameStatus } from "./Game";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./app/store";
+import { startGame } from "./features/gameSlice";
 
-const GameBar = function (props: GameStatus) {
+const GameBar = function () {
   const [timer, setTimer] = useState(0);
-  const [level, setLevel] = useState(() => props.level);
+  const dispatch = useDispatch();
+
+  const { started, ended, numberOfFounded, remained } = useSelector(
+    (state: RootState) => state.game
+  );
+
+  const [level, setLevel] = useState(
+    useSelector((state: RootState) => state.game.level)
+  );
+
+  const levelChangedHandler = () => {
+    dispatch(startGame({ newGame: true, level: level }));
+    setTimer(0);
+  };
 
   useEffect(() => {
     let interval: NodeJS.Timer;
-    if (props.started) {
+    if (started) {
       interval = setInterval(() => {
         setTimer((old) => old + 1);
       }, 1000);
-      if (props.ended) {
+      if (ended) {
         clearInterval(interval);
       }
     }
     return () => clearInterval(interval);
-  }, [props]);
+  }, [started, ended]);
   return (
     <div className="bar">
       <div>
@@ -46,9 +61,14 @@ const GameBar = function (props: GameStatus) {
           type={"radio"}
         />
         <label htmlFor="expert">Expert</label>
-        <button onClick={() => props.handler!(level)}>New Game</button>
+        <button onClick={levelChangedHandler}>New Game</button>
       </div>
-      <div>{timer}</div>
+
+      <div>
+        Time:{timer} <br />
+        <span>Flagged:{numberOfFounded}</span>
+        <span>Remained: {remained}</span>
+      </div>
     </div>
   );
 };

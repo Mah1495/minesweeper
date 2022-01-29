@@ -1,4 +1,7 @@
-import { FC, MouseEventHandler } from "react";
+import { FC } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "./app/store";
+import { BoardState } from "./features/boardSlice";
 import { GameState } from "./Utils";
 
 export interface Cell {
@@ -14,14 +17,14 @@ export interface Cell {
 
 export interface CellProps {
   cell: Cell;
-  state: GameState;
   clickHandler: (e: any, cell: Cell) => void;
 }
 
 const CellComponent: FC<CellProps> = (props) => {
+  const { won, ended } = useSelector((state: RootState) => state.game);
   function setColor() {
-    if (props.cell.revealed || props.state.gameOver) {
-      if (props.state.won && props.cell.isBomb) {
+    if (props.cell.revealed || ended) {
+      if (won && props.cell.isBomb) {
         return "coral";
       }
       if (props.cell.isBomb) {
@@ -45,7 +48,7 @@ const CellComponent: FC<CellProps> = (props) => {
       onMouseDown={(e) => props.clickHandler(e, props.cell)}
       onMouseUp={(e) => props.clickHandler(e, props.cell)}
     >
-      {(props.cell.revealed || props.state.gameOver) &&
+      {(props.cell.revealed || ended) &&
         !props.cell.isBomb &&
         props.cell.bombNeighbour! > 0 &&
         props.cell.bombNeighbour}

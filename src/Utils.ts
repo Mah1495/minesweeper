@@ -6,6 +6,11 @@ export enum EventType {
   contextmenu = "contextmenu",
   mousedown = "mousedown",
 }
+export const GameLevelData = [
+  [10, 8, 10],
+  [18, 14, 40],
+  [24, 20, 99],
+];
 
 export interface GameState {
   bombs: number[];
@@ -23,11 +28,8 @@ function onlyUnique(value: any, index: any, self: any) {
   return self.indexOf(value) === index;
 }
 
-export const startGame = (
-  width: number,
-  height: number,
-  numBombs: number
-): GameState => {
+export const startGame = (level: number): GameState => {
+  const [width, height, numBombs] = GameLevelData[level - 1];
   const bombs: number[] = [];
   while (bombs.length < numBombs) {
     const bomb = Math.floor(Math.random() * width * height);
